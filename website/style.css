@@ -37,3 +37,67 @@ img {
   display: block;
   margin: 3em auto;
 }
+
+.control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  max-width: 600px;
+  margin: 4rem auto;
+}
+
+.label {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.slider {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #444;
+}
+
+.readout {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+  color: #555;
+}
+
+.speed-input {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+input[type="number"] {
+  width: 80px;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+}
+
+button {
+  padding: 0.4rem 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #555;
+}
