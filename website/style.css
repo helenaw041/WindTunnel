@@ -1,14 +1,17 @@
-* {
-  box-sizing: border-box;
-}
-
 html, body {
   max-width: 80vw;
-  margin: 0;
+  margin: auto;
   padding: 0;
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  align-items: center;
+}
+
+body > * {
+  max-width: 80vw;
+  margin: auto;
+  align-items: center;
 }
 
 nav {
@@ -28,7 +31,8 @@ nav {
 }
 
 img {
-  max-width: 100%;
+  max-width: 60vw;
+  width: 100%;
   height: auto;
   display: block;
   margin: 3em auto;
