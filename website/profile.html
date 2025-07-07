@@ -10,12 +10,80 @@
 
 </head>
 <body>
-    <nav class="navigation">
-        <a href ="./index.html" class="nav-button ">Home</a>
-        <a href="./maintenance.html" class="nav-button">Maintenance</a>
-        <a href="./manual.html" class="nav-button">Manual Control</a>
-        <a href="./profile.html" class="nav-button">Profile Control</a>
-        <a href="./settings.html" class="nav-button">Settings</a>
-    </nav>
+  <nav>
+    <a class="nav-button" href="/">Home</a>
+    <a class="nav-button" href="/manual.html">Manual Control</a>
+    <a class="nav-button" href="/profile.html">Profile Control</a>
+  </nav>
+
+  <div class="profile-container">
+    <h2>Profile Control</h2>
+
+    <div class="profile-list" id="profileList">
+      <!-- profiles hereeeeeeeee -->
+    </div>
+
+    <div class="add-profile">
+      <input type="text" id="profileName" placeholder="Profile name (e.g., Aerospace Club)" />
+      <input type="number" id="profileSpeed" placeholder="Speed %" min="0" max="100" />
+      <button onclick="addProfile()">Save Profile</button>
+    </div>
+  </div>
+
+  <script>
+    let profiles = [];
+
+    function renderProfiles() {
+      const list = document.getElementById("profileList");
+      list.innerHTML = "";
+      profiles.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "profile";
+        div.innerHTML = `
+          <span>${p.name} — ${p.speed}%</span>
+          <div class="profile-controls">
+            <button onclick="loadProfile(${i})">Load</button>
+            <button onclick="deleteProfile(${i})">Delete</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function addProfile() {
+      const name = document.getElementById("profileName").value.trim();
+      const speed = parseInt(document.getElementById("profileSpeed").value);
+
+      if (!name || isNaN(speed) || speed < 0 || speed > 100) {
+        alert("Please enter a valid name and speed (0–100).");
+        return;
+      }
+
+      profiles.push({ name, speed });
+      renderProfiles();
+
+      // Clear inputs
+      document.getElementById("profileName").value = "";
+      document.getElementById("profileSpeed").value = "";
+    }
+
+    function deleteProfile(index) {
+      profiles.splice(index, 1);
+      renderProfiles();
+    }
+
+    function loadProfile(index) {
+      const profile = profiles[index];
+      alert(`Loaded "${profile.name}" with speed ${profile.speed}%.`);
+      // TODO: Actually apply profile.speed to the system
+    }
+
+    // Optional: preload some dummy profiles
+    profiles = [
+      { name: "Aero Club", speed: 70 },
+      { name: "Senior Design Team", speed: 55 }
+    ];
+    renderProfiles();
+  </script>
 </body>
 </html>
