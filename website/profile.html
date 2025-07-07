@@ -24,7 +24,7 @@
     </div>
 
     <div class="add-profile">
-      <input type="text" id="profileName" placeholder="Profile name (e.g., Aerospace Club)" />
+      <input type="text" id="profileName" placeholder="Profile name" />
       <input type="number" id="profileSpeed" placeholder="Speed %" min="0" max="100" />
       <button onclick="addProfile()">Save Profile</button>
     </div>
@@ -62,7 +62,6 @@
       profiles.push({ name, speed });
       renderProfiles();
 
-      // Clear inputs
       document.getElementById("profileName").value = "";
       document.getElementById("profileSpeed").value = "";
     }
@@ -75,10 +74,10 @@
     function loadProfile(index) {
       const profile = profiles[index];
       alert(`Loaded "${profile.name}" with speed ${profile.speed}%.`);
-      // TODO: Actually apply profile.speed to the system
+      // actually apply this stuff to wind tunnel
     }
 
-    // Optional: preload some dummy profiles
+    // these fake
     profiles = [
       { name: "Aero Club", speed: 70 },
       { name: "Senior Design Team", speed: 55 }
