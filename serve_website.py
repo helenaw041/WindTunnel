@@ -4,8 +4,8 @@ import os
 import json
 import mimetypes
 
-HOST = 'localhost'
-PORT = 8000
+HOST = '0.0.0.0'
+PORT = 81
 WEBSITE_PATH = "./website"
 
 class MyHandler(BaseHTTPRequestHandler):

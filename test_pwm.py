@@ -8,7 +8,7 @@ import math
 
 bus = SMBus(1)  # i2c-1
 
-DEVICE_ADDR = 0x2d  # Change to your device's address
+DEVICE_ADDR = 0x2a  # Change to your device's address
 REGISTER = 0x00
 
 GAS_CONSTANT = 287 # J / kg*K
