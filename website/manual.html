@@ -17,26 +17,16 @@
         <a href="./settings.html" class="nav-button">Settings</a>
     </nav>
 
-  <div class="control-container">
-    <div class="label">Wind Speed Control</div>
-    <input type="range" min="0" max="100" value="50" id="speedSlider" />
-    <div class="readout">Current Speed: <span id="speedValue">50</span>%</div>
+	<div class="control-container">
+		<div class="label">Wind Speed Control</div>
+		<input type="range" min="0" max="100" value="50" id="speedSlider" />
+		<div class="set-speed">Set Speed: <span id="targetSpeedValue">50</span>%</div>
+		<button id="apply-speed">Apply</button>
 
-    <div class="speed-input">
-      <input type="number" id="speedInput" min="0" max="100" placeholder="Enter %" />
-      <button onclick="applySpeed()">Apply</button>
-    </div>
-  </div>
+		<div class="readout">Current Speed: <span id="speedValue">50</span>%</div>
+	</div>
 
-  <script>
-    const slider = document.getElementById("speedSlider");
-    const speedValue = document.getElementById("speedValue");
-    const speedInput = document.getElementById("speedInput");
-
-    slider.addEventListener("input", () => {
-      const value = slider.value;
-      speedValue.textContent = value;
-    });
-  </script>
+  <script src="/js/manual.js"></script>
+  	
 </body>
 </html>

@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 import os
+import json
 
 HOST = 'localhost'
 PORT = 8000
@@ -48,11 +49,12 @@ class MyHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'application/json')
         self.end_headers()
 
+        print(parsed_data)
+
         response = {
             "message": "POST request received",
             "data": parsed_data,
         }
-        import json
         self.wfile.write(json.dumps(response).encode())
 
 if __name__ == "__main__":
