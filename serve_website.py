@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 import os
 import json
+import mimetypes
 
 HOST = 'localhost'
 PORT = 8000
@@ -20,13 +21,13 @@ class MyHandler(BaseHTTPRequestHandler):
 
         file_path = WEBSITE_PATH+path
 
-        print(file_path)
+        #print(file_path)
 
         if os.path.exists(file_path): 
 
             # Customize GET response here
             self.send_response(200)
-            self.send_header('Content-type', 'text/html')
+            self.send_header('Content-type', mimetypes.guess_type(file_path)[0])
             self.end_headers()
 
             
@@ -34,7 +35,8 @@ class MyHandler(BaseHTTPRequestHandler):
             response = f.read()
             self.wfile.write(response)
         else:
-            self.send_response(200)
+            self.send_response(404)
+            self.end_headers()
 
     def do_POST(self):
         # Get length of POST data
