@@ -71,7 +71,7 @@ class MyHandler(BaseHTTPRequestHandler):
         
 def start_server():
     server = HTTPServer((HOST, PORT), MyHandler)
-    print("Server running on port 8000...")
+    print("Server running on port "+str(port))
     server.serve_forever()
 
 if __name__ == "__main__":
