@@ -4,34 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wind Tunnel</title>
+<<<<<<< HEAD
+=======
     <link rel="stylesheet" href="style.css">
+>>>>>>> 0842f0d2f9d8fea34b1f588abe69c343933313c0
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+          max-width: 80vw;
+          margin: auto;
+          padding: 0;
+          overflow-x: hidden;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 400;
+          align-items: center;
+        }
+
+        body > * {
+          max-width: 80vw;
+          margin: auto;
+          align-items: center;
+        }
+
+        nav {
+          margin: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .nav-button {
+          margin-left: 5rem;
+          margin-right: 5rem;
+          text-decoration: none;
+          font-weight: 500;
+          color: #111;
+          cursor: pointer;
+        }
+
+        .nav-button.active {
+          color: #0066cc;
+          font-weight: 600;
+        }
+
+        img {
+          max-width: 60vw;
+          width: 100%;
+          height: auto;
+          display: block;
+          margin: 3em auto;
+        }
+
+        .control-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 3rem 1rem;
+          background-color: #f9f9f9;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+          max-width: 600px;
+          margin: 4rem auto;
+        }
+
+        .label {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          color: #333;
+        }
+
+        .slider {
+          width: 100%;
+          margin: 1.5rem 0;
+        }
+
+        input[type="range"] {
+          width: 100%;
+          accent-color: #444;
+        }
+
+        .readout, .set-speed {
+          font-size: 1.25rem;
+          margin: 1rem 0;
+          color: #555;
+        }
+
+        .speed-input {
+          margin-top: 1rem;
+          display: flex;
+          gap: 0.5rem;
+          align-items: center;
+        }
+
+        input[type="number"] {
+          width: 80px;
+          padding: 0.4rem;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          text-align: center;
+        }
+
+        button {
+          padding: 0.4rem 1rem;
+          background-color: #333;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+          background-color: #555;
+        }
+
+        .profile-container {
+          max-width: 600px;
+          margin: 4rem auto;
+          padding: 2rem;
+          background-color: #f9f9f9;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .profile-list {
+          width: 100%;
+        }
+
+        .profile {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          margin-bottom: 0.5rem;
+          background-color: white;
+          transition: box-shadow 0.2s ease;
+        }
+
+        .profile:hover {
+          box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile span {
+          font-weight: 500;
+        }
+
+        .profile-controls {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .profile-controls button {
+          padding: 0.3rem 0.6rem;
+          font-size: 0.9rem;
+        }
+
+        .add-profile {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          gap: 0.75rem;
+        }
+
+        .add-profile input {
+          padding: 0.5rem;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          width: 100%;
+        }
+
+        .add-profile button {
+          align-self: flex-end;
+          padding: 0.5rem 1rem;
+        }
+
+        .page {
+          display: none;
+        }
+
+        .page.active {
+          display: block;
+        }
+    </style>
 </head>
 <body>
     <nav class="navigation">
-        <a href ="./index.html" class="nav-button ">Home</a>
-        <a href="./maintenance.html" class="nav-button">Maintenance</a>
-        <a href="./manual.html" class="nav-button">Manual Control</a>
-        <a href="./profile.html" class="nav-button">Profile Control</a>
-        <a href="./settings.html" class="nav-button">Settings</a>
+        <a class="nav-button active" data-page="home">Home</a>
+        <a class="nav-button" data-page="maintenance">Maintenance</a>
+        <a class="nav-button" data-page="manual">Manual Control</a>
+        <a class="nav-button" data-page="profile">Profile Control</a>
+        <a class="nav-button" data-page="settings">Settings</a>
     </nav>
-    <img src="./photos/wind-tunnel.png">
 
-    <h2>
-        How to/About: DON'T WORRY THIS WEBSITE GONNA BE BOOTIFUL
-    </h2>
-    <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque odio mollitia neque ipsa, sequi at provident autem cum, obcaecati molestiae sit tenetur, tempora ad asperiores natus temporibus placeat? Quidem, veniam!
-    </p>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <img src="./photos/wind-tunnel.png" alt="Wind Tunnel">
+        <h2>How to/About: DON'T WORRY THIS WEBSITE GONNA BE BOOTIFUL</h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque odio mollitia neque ipsa, sequi at provident autem cum, obcaecati molestiae sit tenetur, tempora ad asperiores natus temporibus placeat? Quidem, veniam!
+        </p>
+        <h2>Video Tutorial:</h2>
+        <p>
+            <a>this a link</a>
+        </p>
+        <p>Credits: sensei</p>
+    </div>
+    
+    <!-- Maintenance Page -->
+    <div id="maintenance" class="page">
+        <h2>Maintenance</h2>
+        <p>Maintenance content will go here.</p>
+    </div>
 
-    <h2>
-        Video Tutorial:
-    </h2>
-    <p>
-        <a>this a link</a>
-    </p>
+    <!-- Manual Control Page -->
+    <div id="manual" class="page">
+        <div class="control-container">
+            <div class="label">Wind Speed Control</div>
+            <input type="range" min="0" max="100" value="50" id="speedSlider" />
+            <div class="set-speed">Set Speed: <span id="targetSpeedValue">50</span>%</div>
+            <button id="apply-speed">Apply</button>
+            <div class="readout">Current Speed: <span id="speedValue">50</span>%</div>
+        </div>
+    </div>
 
-    <p>Credits: sensei</p>
+    <!-- Profile Control Page -->
+    <div id="profile" class="page">
+        <div class="profile-container">
+            <h2>Profile Control</h2>
+            <div class="profile-list" id="profileList">
+                <!-- profiles will be rendered here -->
+            </div>
+            <div class="add-profile">
+                <input type="text" id="profileName" placeholder="Profile name" />
+                <input type="number" id="profileSpeed" placeholder="Speed %" min="0" max="100" />
+                <button onclick="addProfile()">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="settings" class="page">
+        <h2>Settings</h2>
+        <p>Settings content will go here.</p>
+    </div>
+
+    <script>
+        // Navigation functionality
+        const navButtons = document.querySelectorAll('.nav-button');
+        const pages = document.querySelectorAll('.page');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = button.getAttribute('data-page');
+                
+                // Remove active class from all buttons and pages
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                pages.forEach(page => page.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding page
+                button.classList.add('active');
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+
+        // Manual Control functionality
+        const slider = document.getElementById("speedSlider");
+        const targetSpeedValue = document.getElementById("targetSpeedValue");
+        const applySpeedButton = document.getElementById("apply-speed");
+        const speedValue = document.getElementById("speedValue");
+
+        if (slider) {
+            slider.addEventListener("input", () => {
+                const value = slider.value;
+                targetSpeedValue.textContent = value;
+            });
+        }
+
+        if (applySpeedButton) {
+            applySpeedButton.onclick = () => {
+                console.log("POST");
+                const url = '/';
+                const data = {
+                    command: 'set_wind_speed',
+                    wind_speed: parseFloat(slider.value)
+                };
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            };
+        }
+
+        // Profile Control functionality
+        let profiles = [];
+
+        function renderProfiles() {
+            const list = document.getElementById("profileList");
+            if (!list) return;
+            
+            list.innerHTML = "";
+            profiles.forEach((p, i) => {
+                const div = document.createElement("div");
+                div.className = "profile";
+                div.innerHTML = `
+                    <span>${p.name} — ${p.speed}%</span>
+                    <div class="profile-controls">
+                        <button onclick="loadProfile(${i})">Load</button>
+                        <button onclick="deleteProfile(${i})">Delete</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function addProfile() {
+            const name = document.getElementById("profileName").value.trim();
+            const speed = parseInt(document.getElementById("profileSpeed").value);
+
+            if (!name || isNaN(speed) || speed < 0 || speed > 100) {
+                alert("Please enter a valid name and speed (0–100).");
+                return;
+            }
+
+            profiles.push({ name, speed });
+            renderProfiles();
+
+            document.getElementById("profileName").value = "";
+            document.getElementById("profileSpeed").value = "";
+        }
+
+        function deleteProfile(index) {
+            profiles.splice(index, 1);
+            renderProfiles();
+        }
+
+        function loadProfile(index) {
+            const profile = profiles[index];
+            alert(`Loaded "${profile.name}" with speed ${profile.speed}%.`);
+            // actually apply this stuff to wind tunnel
+        }
+
+        // fake profiles
+        profiles = [
+            { name: "Aero Club", speed: 70 },
+            { name: "Senior Design Team", speed: 55 }
+        ];
+        renderProfiles();
+    </script>
 </body>
 </html>
