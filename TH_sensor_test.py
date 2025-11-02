@@ -20,7 +20,9 @@ setup_command = [0x21, 0x30]
 
 
 def poll_hdc3022():
-    bus.write_i2c_block_data(DEVICE_ADDR, 0, setup_command)
+    setup_write = i2c_msg.write(DEVICE_ADDR, setup_command)
+    bus.i2c_rdwr(setup_write)
+
     write = i2c_msg.write(DEVICE_ADDR, [0xE0, 0x00])
     read = i2c_msg.read(DEVICE_ADDR, 6)
     bus.i2c_rdwr(write, read)
