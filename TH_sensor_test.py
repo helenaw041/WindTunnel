@@ -2,6 +2,7 @@ from smbus2 import SMBus
 from smbus2 import i2c_msg
 import struct
 import math
+import time
 
 bus = SMBus(2)  # i2c-1
 
@@ -25,6 +26,7 @@ def poll_hdc3022():
 
     while (True):
         try: 
+            time.sleep(0.5)
             write = i2c_msg.write(DEVICE_ADDR, [0xE0, 0x00])
             read = i2c_msg.read(DEVICE_ADDR, 6)
             bus.i2c_rdwr(write, read)
