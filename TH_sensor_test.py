@@ -36,8 +36,9 @@ def poll_hdc3022():
             temp = -45 + 175 * (temp_raw / (2**16 - 1))
             humidity = 100 * humidity_raw / (2**16 - 1)
 
-            print(temp)
-            print(humidity)
+            
+            print(f"Temperature (C) {temp}")
+            print(f"Humidity (%) {humidity}")
         except:
             pass
 
