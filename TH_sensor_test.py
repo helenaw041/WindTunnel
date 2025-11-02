@@ -33,6 +33,7 @@ def poll_hdc3022():
 
 
 
+setup_hdc3022()
 temp, humidity= poll_hdc3022()
 print(temp)
 print(humidity)
