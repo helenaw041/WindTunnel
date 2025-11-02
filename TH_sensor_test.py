@@ -1,7 +1,38 @@
-import Adafruit_BBIO.I2C as I2C
+from smbus2 import SMBus
+from smbus2 import i2c_msg
+import struct
+import math
 
-i2c_device = I2C.I2C(2, 0x44) # Bus 1 (I2C2), device address 0x77
+bus = SMBus(2)  # i2c-1
 
-i2c_device.writeBytes(register_address, [data_byte1, data_byte2])
+DEVICE_ADDR = 0x44  # Change to your device's address
+REGISTER = 0x00
 
-print(dir(i2c_device))
+# TODO:
+# Set mode of device with command 0x24 0x0B Trigger-On Demand Mode
+# Then read 6 bytes
+# - First two bytes are temperature
+# - third byte is checksum
+# - Fourth and Fifth are humidity
+# - Sixth is another checksum
+
+setup_command = [0x24, 0x0B]
+
+def setup_hdc3022():
+    bus.write_i2c_block_data(DEVICE_ADDR, 0, setup_command)
+
+def poll_hdc3022():
+    read = i2c_msg.read(DEVICE_ADDR, 6)
+    bus.i2c_rdwr(read)
+    data = list(read)
+
+    temp = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
+    humidity = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
+
+    return temp, humidity
+
+
+
+temp, humidity= poll_hdc3022()
+print(temp)
+print(humidity)
