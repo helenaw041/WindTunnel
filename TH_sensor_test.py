@@ -23,18 +23,21 @@ def poll_hdc3022():
     setup_write = i2c_msg.write(DEVICE_ADDR, setup_command)
     bus.i2c_rdwr(setup_write)
 
-    write = i2c_msg.write(DEVICE_ADDR, [0xE0, 0x00])
-    read = i2c_msg.read(DEVICE_ADDR, 6)
-    bus.i2c_rdwr(write, read)
-    data = list(read)
+    while (True):
+        try: 
+            write = i2c_msg.write(DEVICE_ADDR, [0xE0, 0x00])
+            read = i2c_msg.read(DEVICE_ADDR, 6)
+            bus.i2c_rdwr(write, read)
+            data = list(read)
 
-    temp = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
-    humidity = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
-
-    return temp, humidity
+            temp = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
+            humidity = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
+            print(temp)
+            print(humidity)
+        except:
+            pass
 
 
 
 temp, humidity= poll_hdc3022()
-print(temp)
-print(humidity)
+
