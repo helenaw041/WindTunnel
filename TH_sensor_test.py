@@ -30,8 +30,12 @@ def poll_hdc3022():
             bus.i2c_rdwr(write, read)
             data = list(read)
 
-            temp = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
-            humidity = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
+            temp_raw = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
+            humidity_raw = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
+
+            temp = -45 + 175 * (temp_raw / (2**16 - 1))
+            humidity = 100 * humidity_raw / (2**16 - 1)
+
             print(temp)
             print(humidity)
         except:
