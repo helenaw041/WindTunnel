@@ -33,7 +33,7 @@ def poll_hdc3022():
             data = list(read)
 
             temp_raw = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
-            humidity_raw = int.from_bytes(data[4:6], byteorder='big') # unsure of byte order
+            humidity_raw = int.from_bytes(data[3:5], byteorder='big') # unsure of byte order
 
             temp = -45 + 175 * (temp_raw / (2**16 - 1))
             humidity = 100 * humidity_raw / (2**16 - 1)
