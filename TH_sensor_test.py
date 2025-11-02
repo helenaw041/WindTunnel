@@ -18,12 +18,12 @@ REGISTER = 0x00
 
 setup_command = [0x24, 0x0B]
 
-def setup_hdc3022():
-    bus.write_i2c_block_data(DEVICE_ADDR, 0, setup_command)
 
 def poll_hdc3022():
+    bus.write_i2c_block_data(DEVICE_ADDR, 0, setup_command)
+    write = i2c_msg.write(DEVICE_ADDR, [0x24, 0x0B])
     read = i2c_msg.read(DEVICE_ADDR, 6)
-    bus.i2c_rdwr(read)
+    bus.i2c_rdwr(write, read)
     data = list(read)
 
     temp = int.from_bytes(data[0:2], byteorder='big') # unsure of byte order
@@ -33,7 +33,6 @@ def poll_hdc3022():
 
 
 
-setup_hdc3022()
 temp, humidity= poll_hdc3022()
 print(temp)
 print(humidity)
