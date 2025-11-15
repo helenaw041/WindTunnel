@@ -1,0 +1,18 @@
+{
+  "name": "serial-listen",
+  "version": "1.0.0",
+  "description": "Listens for serial data from a port and broadcasts it to the serving ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Allen Mikhailov",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "serialport": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0"
+  }
+}
