@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { recentDataState } from "src/states";
-import StreamStore from "./StreamStore";
+import StreamStore from "../hooks/stream_hooks";
 import { LineChart } from '@mui/x-charts/LineChart';
 
 

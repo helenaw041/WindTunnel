@@ -6,7 +6,22 @@
 	"serve_hostname": "127.0.0.1",
 
 	"data_channels": {
-		"stream1": {
+		"wind_speed": {
+			"type": "stream"
+		},
+		"air_temperature": {
+			"type": "stream"
+		},
+		"air_humidity": {
+			"type": "stream"
+		},
+		"diff_pressure": {
+			"type": "stream"
+		},
+		"set_fan_speed": {
+			"type": "stream"
+		},
+		"logs": {
 			"type": "stream"
 		}
 	}

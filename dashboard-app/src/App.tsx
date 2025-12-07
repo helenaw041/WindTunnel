@@ -4,7 +4,8 @@ import { Box, Paper, Container, AppBar, Tabs, Tab, Typography } from '@mui/mater
 import { Home, Settings, User, Wrench, Send, Zap, TrendingUp, CheckCircle, AlertTriangle, Cloud, Gauge, SlidersHorizontal, Fan } from 'lucide-react'; // <-- Imported Fan
 import { recentDataState } from './states';
 import './App.css'
-import HomeTab from './tabs/home.tsx';
+import HomeTab from './tabs/HomeTab.tsx';
+import ManualControlTab from './tabs/ManualControl.tsx';
 
 
 import TopBar from './components/TopBar';
@@ -100,7 +101,7 @@ function App() {
       case 'home': return <HomeTab />;
     //   case 'maintenance': return <MaintenanceTab />;
     //   case 'profiles': return <ProfilesTab />;
-    //   case 'manual': return <ManualControlTab />;
+      case 'manual': return <ManualControlTab />;
       default: return <Typography>Tab content not found.</Typography>;
     }
   }, [activeTab]);
