@@ -5,7 +5,6 @@ dashboard_serve = Popen(['node', './dashboard-serve/dist/index.js'])
 
 try:
     while (True):
-
         dashboard_poll = dashboard_serve.poll() 
         main_script_poll = main_script.poll() 
             

@@ -5,7 +5,7 @@ import StatusCard from '..//components/StatusCard';
 
 function ManualControlTab()
 {
-    const [targetSpeed, setTargetSpeed] = useState<number>(50);
+    const [targetSpeed, setTargetSpeed] = useState<number>(0);
     const [tunnelPower, setTunnelPower] = useState<boolean>(false);
 
   const handlePowerToggle = () => {
