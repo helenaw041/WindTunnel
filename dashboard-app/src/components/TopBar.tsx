@@ -10,8 +10,8 @@ import { tunnelPowerState } from '../states';
 import { useStreamTop } from '../hooks/stream_hooks';
 
 function TopBar() {
-	const tunnelPower = useStreamTop("power_state", false)
-
+	const [tunnelPower] = tunnelPowerState.useState(); 
+	
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			{/* App Bar (Header) */}
@@ -31,16 +31,40 @@ function TopBar() {
 					{/* <Box className="flex items-right space-x-3">
 					<Typography variant="body2" className="text-white/80">User: Admin</Typography>
 				</Box> */}
-					<Typography
-						variant="subtitle1"
+					<Box
 						sx={{
-							fontWeight: 700,
-							color: tunnelPower ? 'success.dark' : 'grey.600',
-							mt: 1
+							backgroundColor: 'white',
+							borderRadius: 2,
+							px: 2,
+							py: 0.5,
+							display: 'flex',
+							alignItems: 'center',
+							gap: 1.5
 						}}
 					>
-						{tunnelPower ? 'ONLINE' : 'OFFLINE'}
-					</Typography>
+						<Box 
+							sx={{ 
+								width: 16, 
+								height: 16, 
+								borderRadius: '50%',
+								backgroundColor: tunnelPower ? 'success.main' : 'grey.400',
+								animation: tunnelPower ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
+								'@keyframes pulse': {
+									'0%, 100%': { opacity: 1 },
+									'50%': { opacity: 0.5 }
+								}
+							}}
+						/>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								fontWeight: 700,
+								color: tunnelPower ? 'success.dark' : 'grey.600'
+							}}
+						>
+							{tunnelPower ? 'ONLINE' : 'OFFLINE'}
+						</Typography>
+					</Box>
 				</Toolbar>
 			</AppBar>
 		</Box>

@@ -3,10 +3,11 @@ import { Typography, Box, Paper, Grid, Button, Slider, ToggleButton, ToggleButto
 import { Send, Zap, TrendingUp, SlidersHorizontal } from 'lucide-react';
 import StatusCard from '../components/StatusCard';
 import { useStreamTop } from '../hooks/stream_hooks';
+import { tunnelPowerState } from '../states';
 
 function ManualControlTab() {
   const [targetSpeed, setTargetSpeed] = useState(0);
-  const [tunnelPower, setTunnelPower] = useState(false);
+  const [tunnelPower, setTunnelPower] = tunnelPowerState.useState();  // ✅ Use the global state
   const [unit, setUnit] = useState('ms');
 
   const handlePowerToggle = () => {
@@ -38,30 +39,6 @@ function ManualControlTab() {
               <SlidersHorizontal className="text-red-500" size={24} />
               <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
                 Manual Override & Control
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box 
-                sx={{ 
-                  width: 16, 
-                  height: 16, 
-                  borderRadius: '50%',
-                  backgroundColor: tunnelPower ? 'success.main' : 'grey.400',
-                  animation: tunnelPower ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
-                  '@keyframes pulse': {
-                    '0%, 100%': { opacity: 1 },
-                    '50%': { opacity: 0.5 }
-                  }
-                }}
-              />
-              <Typography 
-                variant="subtitle1" 
-                sx={{ 
-                  fontWeight: 600,
-                  color: tunnelPower ? 'success.main' : 'grey.500'
-                }}
-              >
-                Tunnel: {tunnelPower ? 'ONLINE' : 'OFFLINE'}
               </Typography>
             </Box>
           </Box>
