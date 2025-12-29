@@ -12,7 +12,7 @@ from main.fans.fan_class import Fan
 from main.fans.small_fan import SmallFan
 from main.pid_loop import PIDLoop
 from main.sensors.TH_sensor import HDC3022
-from main.sensors.pressure_sensor import poll_ND210
+from main.sensors.pressure_sensor import ND210
 
 
 class TunnelState(Enum):
@@ -31,13 +31,13 @@ class Globals:
     loop: PIDLoop
     controller: FanController
     
-    # Sensor Readings
-    pressure: float = 0
+    
     air_density: float = 0
     target_wind_speed: float = 0
     current_wind_speed: float = 0
 
     th_sensor: HDC3022
+    pressure_sensor: ND210
     fan: Fan
 
     # Will pull from config
@@ -87,18 +87,21 @@ def send_data():
             "target_wind_speed": [G.target_wind_speed],
             "air_temperature": [G.th_sensor.temp],
             "air_humidity": [G.th_sensor.humidity],
-            "diff_pressure": [G.pressure],
+            "diff_pressure": [G.pressure_sensor.pressure],
         }
     })
-    response = requests.post(G.hostname+":"+str(G.port), json=data)
+    url = G.hostname+":"+str(G.port)
+    print(url)
+    response = requests.post(url, json=data)
 
 def update_sensors():
     G.th_sensor.read()
-    G.pressure, _ = poll_ND210()
+    G.pressure_sensor.read()
 
+    # TODO: Calculate from sensor readings
     G.air_density = 1.225
 
-    G.current_wind_speed = math.sqrt(2 * G.pressure * 4.52 / G.air_density)
+    G.current_wind_speed = math.sqrt(2 * G.pressure_sensor.pressure * 4.52 / G.air_density)
 
 if __name__ == "__main__":
     """
@@ -130,18 +133,10 @@ if __name__ == "__main__":
         while True:
             update_sensors()
 
-
             if G.tunnel_state == TunnelState.IDLE:
                 pass
             elif G.tunnel_state == TunnelState.RUNNING_MANUAL:
-                G.controller.update(G.target_wind_speed) 
-
-            time.sleep(0.05)
-
-            print(f"Target:{TARGET_WIND_SPEED:.1f}  "
-                  f"Wind:{wind_speed:.2f} m/s  "
-                  f"Pressure:{pressure:.2f} Pa  "
-                  f"Duty:{duty:.2f}%")
+                G.controller.update(G.target_wind_speed, G.current_wind_speed) 
 
             time.sleep(0.05)
 

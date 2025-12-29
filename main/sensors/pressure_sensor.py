@@ -16,7 +16,7 @@ class ND210:
     def read(self):
         """Reads pressure and temperature from ND210 sensor and computes air density."""
         read = i2c_msg.read(DEVICE_ADDR, 4)
-        bus.i2c_rdwr(read)
+        self.bus.i2c_rdwr(read)
         data = list(read)
 
         # Pressure calculation
