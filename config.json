@@ -29,6 +29,9 @@
 		},
 		"logs": {
 			"type": "stream"
+		},
+		"power_state": {
+			"type": "stream"
 		}
 	}
 }
