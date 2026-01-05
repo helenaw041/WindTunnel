@@ -1,0 +1,37 @@
+{
+	"listen_port": 5000,
+	"listen_hostname": "127.0.0.1",
+
+	"serve_port": 8000,
+	"serve_hostname": "127.0.0.1",
+
+
+	"tunnel_type": "Big",
+
+	"data_channels": {
+		"current_wind_speed": {
+			"type": "stream"
+		},
+		"target_wind_speed": {
+			"type": "stream"
+		},
+		"air_temperature": {
+			"type": "stream"
+		},
+		"air_humidity": {
+			"type": "stream"
+		},
+		"diff_pressure": {
+			"type": "stream"
+		},
+		"set_fan_speed": {
+			"type": "stream"
+		},
+		"logs": {
+			"type": "stream"
+		},
+		"power_state": {
+			"type": "stream"
+		}
+	}
+}

@@ -1,0 +1,1 @@
+- When we press the control e-stop, does the VFD do the deceleration on its own?

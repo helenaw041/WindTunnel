@@ -1,94 +1,145 @@
+from enum import Enum
 import time
 import math
 import threading
-import Adafruit_BBIO.PWM as PWM
+import requests
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
 
-from pressure_sensor import pull_ND210
-from TH_sensor import poll_hdc3022
-from web_server import start_server
-
-# --- Constants ---
-GAS_CONSTANT = 287      # J / kg*K
-GRAVITY_A = 9.8         # m/s²
-PWM_PIN = "P2_1"
-HOST = '0.0.0.0'
-PORT = 81
-
-# --- Control variables ---
-TARGET_WIND_SPEED = 12
-duty = 15
-
-kp = 0.12 * (1.0 - 0.5)
-Ti = 0.7005952381 * (1.0 + 0.5)
-Td = 0.35
-
-if Ti == 0.0:
-    ki = 0.0
-else:
-    ki = kp / Ti
-
-kd = kp * Td
-
-integral = 0
-ms_prev = time.time_ns() / 1_000_000
-previous = 0
+from main.fan_controller import FanController
+from main.fans.big_fan import BigFan
+from main.fans.fan_class import Fan
+from main.fans.small_fan import SmallFan
+from main.pid_loop import PIDLoop
+from main.sensors.TH_sensor import HDC3022
+from main.sensors.pressure_sensor import ND210
 
 
-def pid(error):
-    global integral, ms_prev, previous
-    output = 0.0
-    if error == 0.0:
-        return 0.0
+class TunnelState(Enum):
+    IDLE = 1
+    RUNNING_MANUAL = 2
+    RUNNING_PROFILE = 3
 
-    ms_now = time.time_ns() / 1_000_000
-    dt = ms_now - ms_prev
-    if dt <= 0:
-        dt = 1
+# Two type of fans (The little one and the big 20kW one)
+class FanType(Enum):
+    SmallFan = 1
+    BigFan = 2
 
-    proportional = error
-    integral += error * dt
-    derivative = (error - previous) / dt
+class Globals:
+    tunnel_state: TunnelState = TunnelState.IDLE
+    fan_type: FanType
+    loop: PIDLoop
+    controller: FanController
+    
+    
+    air_density: float = 0
+    target_wind_speed: float = 0
+    current_wind_speed: float = 0
 
-    previous = error
-    output = (kp * proportional) + (ki * integral) + (kd * derivative)
-    ms_prev = ms_now
+    th_sensor: HDC3022
+    pressure_sensor: ND210
+    fan: Fan
 
-    return output
+    # Will pull from config
+    port: int = 0
+    hostname: str = ""
 
+
+
+
+
+G = Globals()
+
+class RequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        pass 
+
+    def do_POST(self):
+        global TARGET_WIND_SPEED
+
+        content_length = int(self.headers.get('Content-Length', 0))
+        post_data = self.rfile.read(content_length)
+
+        try:
+            data = json.loads(post_data)
+            if data.get("command") == "set_wind_speed":
+                G.target_wind_speed = data.get("wind_speed")
+                print(f"Target wind speed set to {G.target_wind_speed}")
+        except json.JSONDecodeError:
+            print("Received raw POST data:", post_data.decode("utf-8"))
+
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        response = {"message": "POST received"}
+        self.wfile.write(json.dumps(response).encode())
+
+
+def start_server():
+    server = HTTPServer((G.hostname, G.port), RequestHandler)
+    print(f"Server running on port {G.port}...")
+    server.serve_forever()
+
+def send_data():
+    data = json.dumps({
+        "data": {
+            "current_wind_speed": [G.current_wind_speed],
+            "target_wind_speed": [G.target_wind_speed],
+            "air_temperature": [G.th_sensor.temp],
+            "air_humidity": [G.th_sensor.humidity],
+            "diff_pressure": [G.pressure_sensor.pressure],
+        }
+    })
+    url = G.hostname+":"+str(G.port)
+    print(url)
+    response = requests.post(url, json=data)
+
+def update_sensors():
+    G.th_sensor.read()
+    G.pressure_sensor.read()
+
+    # TODO: Calculate from sensor readings
+    G.air_density = 1.225
+
+    G.current_wind_speed = math.sqrt(2 * G.pressure_sensor.pressure * 4.52 / G.air_density)
 
 if __name__ == "__main__":
+    """
+    This loop will handle the main functionality of the tunnel
+    """
+
+    # Read config
+    with open("../config.json") as json_data:
+        d = json.load(json_data)
+        G.hostname = d["hostname"]
+        G.port = d['port']
+
+        if d["fan_type"] == "small":
+            G.fan_type = FanType.SmallFan
+            G.fan = SmallFan()
+        elif d["fan_type"] == "big":
+            G.fan_type = FanType.BigFan
+            G.fan = BigFan()
+
     # Start web server
-    threading.Thread(target=start_server, args=(HOST, PORT), daemon=True).start()
+    threading.Thread(target=start_server, args=(G.hostname, G.port), daemon=True).start()
     print("Web server started. Control loop beginning...")
 
-    # Setup PWM
-    PWM.start(PWM_PIN, 15, 100, 1)
-
-    time.sleep(0.25)
-    pressure_zero, _, _ = pull_ND210()
+    G.th_sensor = HDC3022()
+    G.loop = PIDLoop()
+    G.controller = FanController(G.loop, G.fan)
 
     try:
         while True:
-            PWM.set_duty_cycle(PWM_PIN, duty)
+            update_sensors()
 
-            pressure, temp, air_density = pull_ND210()
-            wind_speed = math.sqrt(2 * pressure * 4.52 / 1.225)
-
-            duty = pid(TARGET_WIND_SPEED - wind_speed) / 40
-
-            if duty > 100:
-                duty = 100
-            if duty < 15:
-                duty = 15
-
-            print(f"Target:{TARGET_WIND_SPEED:.1f}  "
-                  f"Wind:{wind_speed:.2f} m/s  "
-                  f"Pressure:{pressure:.2f} Pa  "
-                  f"Duty:{duty:.2f}%")
+            if G.tunnel_state == TunnelState.IDLE:
+                pass
+            elif G.tunnel_state == TunnelState.RUNNING_MANUAL:
+                G.controller.update(G.target_wind_speed, G.current_wind_speed) 
 
             time.sleep(0.05)
 
     except KeyboardInterrupt:
         print("\nInterrupted by user. Cleaning up...")
-        PWM.cleanup()
 

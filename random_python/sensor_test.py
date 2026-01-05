@@ -3,6 +3,7 @@ from smbus2 import i2c_msg
 import struct
 import math
 
+
 GAS_CONSTANT = 287 # J / kg*K
 GRAVITY_A = 9.8 # m/s
 
@@ -10,7 +11,6 @@ bus = SMBus(1)  # i2c-1
 
 DEVICE_ADDR = 0x2a  # Change to your device's address
 REGISTER = 0x00
-
 
 def pull_ND210():
     # https://drive.google.com/drive/u/1/folders/13mqlg_fPW99mimwQFQ4ZhsAqHYcJ3kXI

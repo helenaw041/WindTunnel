@@ -1,0 +1,18 @@
+{
+  "name": "dashboard-serve",
+  "version": "1.0.0",
+  "description": "Serves the dashboard while listening for data on an http server",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Allen Mikhailov",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "mime": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0"
+  }
+}

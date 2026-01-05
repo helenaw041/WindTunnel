@@ -1,0 +1,35 @@
+from smbus2 import SMBus, i2c_msg
+import struct
+
+DEVICE_ADDR = 0x2A
+GAS_CONSTANT = 287  # J/kg*K
+
+class ND210:
+    bus: SMBus
+
+    def __init__(self, bus_index) -> None:
+        self.bus = SMBus(bus_index)
+
+    def setup(self):
+        pass
+
+    def read(self):
+        """Reads pressure and temperature from ND210 sensor and computes air density."""
+        read = i2c_msg.read(DEVICE_ADDR, 4)
+        self.bus.i2c_rdwr(read)
+        data = list(read)
+
+        # Pressure calculation
+        pressure_inh20 = struct.unpack(">h", bytes(data[0:2]))[0] / (0.9 * (2**15)) * 0.5
+        if pressure_inh20 < 0:
+            pressure_inh20 = 0
+        self.pressure = pressure_inh20 * 248.84  # convert to Pascals
+
+        # Temperature in Kelvin
+        self.temp = int.from_bytes(data[2:4], byteorder='big') / (2**8) + 273.15
+
+        # Air density
+        self.air_density = self.pressure / (GAS_CONSTANT * self.temp)
+
+        return self.pressure, self.temp 
+
