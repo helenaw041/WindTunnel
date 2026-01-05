@@ -4,7 +4,7 @@ import threading
 import Adafruit_BBIO.PWM as PWM
 
 from pressure_sensor import pull_ND210
-from temp_humidity_sensor import poll_hdc3022
+from TH_sensor import poll_hdc3022
 from web_server import start_server
 
 # --- Constants ---
