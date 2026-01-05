@@ -6,7 +6,7 @@ import requests
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from main.fan_controller import FanController
+from fan_controller import FanController
 from main.fans.big_fan import BigFan
 from main.fans.fan_class import Fan
 from main.fans.small_fan import SmallFan
