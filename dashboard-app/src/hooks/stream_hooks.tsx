@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { recentDataState } from "../states";
 
-function useStreamStore(channel: string)
-{
-	const [data, setData] = useState<any[]>([])
+function useStreamStore(channel: string) {
+	const [data, setData] = useState<any[]>([]);
 	const [recentData] = recentDataState.useState();
+
 	useEffect(() => {
-		if (recentData.data[channel] == undefined)
+		if (recentData.data[channel] == undefined) 
 			return;
 
-		setData([...data, ...recentData.data[channel]]);
-	}, [recentData]);
+		// Append new data
+		setData(prev => [...prev, ...recentData.data[channel]]);
+	}, [recentData, channel]);
+
 	return data;
 }
 

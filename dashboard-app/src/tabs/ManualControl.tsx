@@ -7,7 +7,7 @@ import { tunnelPowerState } from '../states';
 
 function ManualControlTab() {
   const [targetSpeed, setTargetSpeed] = useState(0);
-  const [tunnelPower, setTunnelPower] = tunnelPowerState.useState();  // ✅ Use the global state
+  const [tunnelPower, setTunnelPower] = tunnelPowerState.useState();  
   const [unit, setUnit] = useState('ms');
 
   const handlePowerToggle = () => {
