@@ -1,3 +1,12 @@
+
+from enum import Enum
+
+class FanStatus(Enum):
+    FAULT = 0
+    NEED_CLEAR = 1
+    NOT_READY = 2
+
+
 class Fan:
     def __init__(self) -> None:
         pass

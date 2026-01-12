@@ -6,13 +6,13 @@ import requests
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from main.fan_controller import FanController
-from main.fans.big_fan import BigFan
-from main.fans.fan_class import Fan
-from main.fans.small_fan import SmallFan
-from main.pid_loop import PIDLoop
-from main.sensors.TH_sensor import HDC3022
-from main.sensors.pressure_sensor import ND210
+from fan_controller import FanController
+from fans.big_fan import BigFan
+from fans.fan_class import Fan
+from fans.small_fan import SmallFan
+from pid_loop import PIDLoop
+from sensors.TH_sensor import HDC3022
+from sensors.pressure_sensor import ND210
 
 
 class TunnelState(Enum):
@@ -45,9 +45,6 @@ class Globals:
     hostname: str = ""
 
 
-
-
-
 G = Globals()
 
 class RequestHandler(BaseHTTPRequestHandler):
@@ -55,8 +52,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         pass 
 
     def do_POST(self):
-        global TARGET_WIND_SPEED
-
         content_length = int(self.headers.get('Content-Length', 0))
         post_data = self.rfile.read(content_length)
 

@@ -41,6 +41,43 @@ function refreshClientId(id: string): void
 // Create an HTTP server
 const hostServer: http.Server = http.createServer((req, res) => {
 	// Set the response header
+	//
+	
+	console.log(req.method)
+	if (req.method == "POST")
+	{
+		let body = '';
+
+		req.on('data', chunk => {
+			body += chunk;
+		});
+
+		req.on('end', () => {
+			const options = {
+				hostname: configJSON.listen_hostname,
+				port: configJSON.listen_port,
+				path: '/',
+				method: 'POST',
+				headers: {
+					'Content-Type': req.headers['content-type'],
+					'Content-Length': Buffer.byteLength(body)
+				}
+		  	};
+
+			const proxyReq = http.request(options, proxyRes => {});
+			
+
+			proxyReq.on('error', err => {
+				console.error(err);
+				res.writeHead(500);
+				res.end('Proxy error');
+			});
+
+			proxyReq.write(body);
+			proxyReq.end();
+
+		});
+	}
 	
 	let url = req.url || "";	
 	if (url == "/")

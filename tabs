@@ -1,0 +1,2 @@
+   title: %n;; command: npm run dev ;; workdir: ./dashboard-app
+   title: %n;; command: nvim ;; workdir: .
