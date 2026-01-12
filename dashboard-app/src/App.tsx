@@ -1,18 +1,18 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import type { ListenerData, ConfigFile } from "@shared/index"
 import { Box, Paper, Container, AppBar, Tabs, Tab, Typography } from '@mui/material';
-import { Home, Settings, User, Wrench, Send, Zap, TrendingUp, CheckCircle, AlertTriangle, Cloud, Gauge, SlidersHorizontal, Fan } from 'lucide-react'; // <-- Imported Fan
+import { Home, Settings, User, Wrench, Send, Zap, TrendingUp, CheckCircle, AlertTriangle, Cloud, Gauge, SlidersHorizontal, Fan } from 'lucide-react';
 import { recentDataState } from './states';
 import './App.css'
 import HomeTab from './tabs/HomeTab.tsx';
 import ManualControlTab from './tabs/ManualControl.tsx';
-
+import GraphsTab from './tabs/GraphsTab.tsx';
 
 import TopBar from './components/TopBar';
 
 import BasicGraph from './examples/BasicGraph.tsx';
 
-type TabKey = 'home' | 'maintenance' | 'profiles' | 'manual';
+type TabKey = 'home' | 'maintenance' | 'profiles' | 'manual' | 'graphs';
 
 // Tab Panel Component
 interface TabPanelProps {
@@ -102,6 +102,7 @@ function App() {
     //   case 'maintenance': return <MaintenanceTab />;
     //   case 'profiles': return <ProfilesTab />;
       case 'manual': return <ManualControlTab />;
+      case 'graphs': return <GraphsTab />;
       default: return <Typography>Tab content not found.</Typography>;
     }
   }, [activeTab]);
@@ -144,6 +145,11 @@ function App() {
                 value="manual"
                 {...tabProps('manual')}
               />
+              <Tab
+                label={<span className="flex items-center"><TrendingUp className="mr-2" size={18} /> Graphs</span>}
+                value="graphs"
+                {...tabProps('graphs')}
+              />
             </Tabs>
           </AppBar>
 
@@ -158,6 +164,9 @@ function App() {
             {content}
           </TabPanel>
           <TabPanel value="manual" currentTab={activeTab}>
+            {content}
+          </TabPanel>
+          <TabPanel value="graphs" currentTab={activeTab}>
             {content}
           </TabPanel>
         </Paper>
