@@ -2,7 +2,7 @@ import * as http from "http";
 import * as path from "path"
 import * as fs from "fs";
 import * as mime from "mime"
-import { ConfigFile, ListenerData, ChannelSettings } from "@shared/index"
+import { ConfigFile, ListenerData, ChannelSettings } from "@shared/index.js"
 import { buffer } from "stream/consumers";
 
 const srcDirectory = path.join(__dirname, '../..', "dashboard-app", "dist");

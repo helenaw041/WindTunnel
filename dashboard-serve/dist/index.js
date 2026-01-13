@@ -1,42 +1,7 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-const http = __importStar(require("http"));
-const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
-const mime = __importStar(require("mime"));
+import * as http from "http";
+import * as path from "path";
+import * as fs from "fs";
+import * as mime from "mime";
 const srcDirectory = path.join(__dirname, '../..', "dashboard-app", "dist");
 const configPath = path.join(__dirname, '../..', 'config.json');
 const configJSON = JSON.parse(fs.readFileSync(configPath).toString());
@@ -66,6 +31,34 @@ function refreshClientId(id) {
 // Create an HTTP server
 const hostServer = http.createServer((req, res) => {
     // Set the response header
+    //
+    console.log(req.method);
+    if (req.method == "POST") {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk;
+        });
+        req.on('end', () => {
+            const options = {
+                hostname: configJSON.listen_hostname,
+                port: configJSON.listen_port,
+                path: '/',
+                method: 'POST',
+                headers: {
+                    'Content-Type': req.headers['content-type'],
+                    'Content-Length': Buffer.byteLength(body)
+                }
+            };
+            const proxyReq = http.request(options, proxyRes => { });
+            proxyReq.on('error', err => {
+                console.error(err);
+                res.writeHead(500);
+                res.end('Proxy error');
+            });
+            proxyReq.write(body);
+            proxyReq.end();
+        });
+    }
     let url = req.url || "";
     if (url == "/")
         url = "/index.html";
