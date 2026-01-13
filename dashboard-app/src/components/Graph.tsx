@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { recentDataState } from "src/states";
-import StreamStore from "../hooks/stream_hooks";
+import { useStreamStore } from "../hooks/stream_hooks";
 import { LineChart } from '@mui/x-charts/LineChart';
 
 
@@ -21,10 +21,9 @@ function RawGraph({data}: {data: number[]})
 
 function Graph({channel}: {channel: string})
 {
-	const [data, setData] = useState<number[]>([]);
+	const [data, setData] = useStreamStore(channel);
 
 	return <>
-		<StreamStore channel={channel} data={data} setData={setData}/>
 		<RawGraph data={data}/>
 	</>
 }
