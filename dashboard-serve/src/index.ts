@@ -148,7 +148,7 @@ const hostServer: http.Server = http.createServer((req, res) => {
 		return res.end();
 	} else {
 		res.writeHead(404);
-		return res.end('File not found');
+		return res.end('File not found :(');
 	}
 });
 
