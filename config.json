@@ -3,7 +3,7 @@
 	"listen_hostname": "127.0.0.1",
 
 	"serve_port": 8000,
-	"serve_hostname": "127.0.0.1",
+	"serve_hostname": "0.0.0.0",
 
 
 	"tunnel_type": "big",
