@@ -36,6 +36,20 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, currentTab, ...oth
   );
 };
 
+function generateUUID() {
+  // Try native crypto.randomUUID first (works in secure contexts)
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  
+  // Fallback for non-secure contexts (HTTP)
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 function App() {
 	const [configData, setConfigData] = useState<ConfigFile>();
 	const [uuid, setUuid] = useState<string>("");
@@ -55,7 +69,7 @@ function App() {
 	useEffect(() => {
 		// Generating UUID to use for communication
 		// Not intended to be security
-		const uuid: string = crypto.randomUUID();
+		const uuid: string = generateUUID();
 		setUuid(uuid);
 
 
