@@ -6,7 +6,7 @@
 	"serve_hostname": "127.0.0.1",
 
 
-	"tunnel_type": "Big",
+	"tunnel_type": "big",
 
 	"data_channels": {
 		"current_wind_speed": {

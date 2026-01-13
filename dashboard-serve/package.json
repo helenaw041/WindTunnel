@@ -4,6 +4,7 @@
   "description": "Serves the dashboard while listening for data on an http server",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Allen Mikhailov",

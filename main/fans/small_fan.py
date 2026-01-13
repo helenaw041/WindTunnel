@@ -4,7 +4,7 @@ A Class that deals with the operation of the Small Fan
 the small fan runs on a PWM system
 """
 import Adafruit_BBIO.PWM as PWM
-from main.fans.fan_class import Fan
+from fans.fan_class import Fan
 import numpy as np
 
 # Expected to be here on the pocket beagle

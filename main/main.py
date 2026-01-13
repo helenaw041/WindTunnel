@@ -107,21 +107,23 @@ if __name__ == "__main__":
     # Read config
     with open("../config.json") as json_data:
         d = json.load(json_data)
-        G.hostname = d["hostname"]
-        G.port = d['port']
+        G.hostname = d["listen_hostname"]
+        G.port = d['listen_port']
 
-        if d["fan_type"] == "small":
+        if d["tunnel_type"] == "small":
             G.fan_type = FanType.SmallFan
             G.fan = SmallFan()
-        elif d["fan_type"] == "big":
+        elif d["tunnel_type"] == "big":
             G.fan_type = FanType.BigFan
             G.fan = BigFan()
 
     # Start web server
-    threading.Thread(target=start_server, args=(G.hostname, G.port), daemon=True).start()
+    threading.Thread(target=start_server, daemon=True).start()
     print("Web server started. Control loop beginning...")
 
     G.th_sensor = HDC3022()
+    G.pressure_sensor = ND210(2)
+
     G.loop = PIDLoop()
     G.controller = FanController(G.loop, G.fan)
 

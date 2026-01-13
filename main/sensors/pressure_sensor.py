@@ -1,7 +1,7 @@
 from smbus2 import SMBus, i2c_msg
 import struct
 
-DEVICE_ADDR = 0x2A
+DEVICE_ADDR = 0x28
 GAS_CONSTANT = 287  # J/kg*K
 
 class ND210:

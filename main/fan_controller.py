@@ -1,5 +1,5 @@
-from main.fans.fan_class import Fan
-from main.pid_loop import PIDLoop
+from fans.fan_class import Fan
+from pid_loop import PIDLoop
 import time
 
 def get_ms_accuratly():
