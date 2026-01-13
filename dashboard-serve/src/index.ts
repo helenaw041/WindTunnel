@@ -5,6 +5,12 @@ import * as mime from "mime"
 import { ConfigFile, ListenerData, ChannelSettings } from "@shared/index.js"
 import { buffer } from "stream/consumers";
 
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const srcDirectory = path.join(__dirname, '../..', "dashboard-app", "dist");
 const configPath =  path.join(__dirname, '../..', 'config.json');
 const configJSON: ConfigFile = JSON.parse(fs.readFileSync(configPath).toString());
