@@ -1,0 +1,14 @@
+[Unit]
+Description=dashboardserve
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=PATH_TO_EXECUTABLE
+User=debian
+
+[Install]
+WantedBy=default.target
