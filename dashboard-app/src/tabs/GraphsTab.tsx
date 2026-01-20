@@ -45,7 +45,7 @@ function RawGraph({data}: {data: number[]}) {
 }
 
 const GraphsTab: React.FC = () => {
-  const [data, setData] = useState<number[]>([]);
+  const [data, setData] = useStreamStore("current_wind_speed");
   const [showAggregate, setShowAggregate] = useState(false);
   
   const aggregates = calculateAggregates(data);
