@@ -86,7 +86,7 @@ def send_data():
             "diff_pressure": [G.pressure_sensor.pressure],
         }
     })
-    url = "http://"+G.hostname+":"+str(G.port)
+    url = "http://"+G.hostname+":"+str(G.port)+"/data"
     print(data)
     response = requests.post(url, json=data)
 
