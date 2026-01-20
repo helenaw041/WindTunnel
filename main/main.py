@@ -87,15 +87,18 @@ def send_data():
         }
     })
     url = "http://"+G.hostname+":"+str(G.port)
-    print(url)
+    print(data)
     response = requests.post(url, json=data)
+
+    print(response.status_code)
+    print(response.json()["json"])
 
 def update_sensors():
     G.th_sensor.read()
     G.pressure_sensor.read()
 
     # TODO: Calculate from sensor readings
-    G.air_density = 1.225
+    G.air_density = 2.225
 
     G.current_wind_speed = math.sqrt(2 * G.pressure_sensor.pressure * 4.52 / G.air_density)
 
