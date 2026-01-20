@@ -113,7 +113,7 @@ const hostServer = http.createServer((req, res) => {
     }
     else {
         res.writeHead(404);
-        return res.end('File not found');
+        return res.end('File not found :(');
     }
 });
 function addData(data) {
