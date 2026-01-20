@@ -81,7 +81,7 @@ def send_data():
         "data": {
             "current_wind_speed": [G.current_wind_speed],
             "target_wind_speed": [G.target_wind_speed],
-            "air_temperature": [G.th_sensor.temp],
+            "air_temperature": [G.th_sensor.temperature],
             "air_humidity": [G.th_sensor.humidity],
             "diff_pressure": [G.pressure_sensor.pressure],
         }
