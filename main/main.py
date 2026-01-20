@@ -77,7 +77,7 @@ def start_server():
     server.serve_forever()
 
 def send_data():
-    data = json.dumps({
+    data = {
         "data": {
             "current_wind_speed": [G.current_wind_speed],
             "target_wind_speed": [G.target_wind_speed],
@@ -85,7 +85,7 @@ def send_data():
             "air_humidity": [G.th_sensor.humidity],
             "diff_pressure": [G.pressure_sensor.pressure],
         }
-    })
+    }
     url = "http://"+G.hostname+":"+str(G.port)+"/data"
     print(data)
     response = requests.post(url, json=data)
