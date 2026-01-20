@@ -118,7 +118,7 @@ if __name__ == "__main__":
             G.fan = BigFan()
 
     # Start web server
-    threading.Thread(target=start_server, daemon=True).start()
+    # threading.Thread(target=start_server, daemon=True).start()
     print("Web server started. Control loop beginning...")
 
     G.th_sensor = HDC3022()
@@ -137,6 +137,8 @@ if __name__ == "__main__":
                 G.controller.update(G.target_wind_speed, G.current_wind_speed) 
 
             time.sleep(0.05)
+
+            send_data()
 
     except KeyboardInterrupt:
         print("\nInterrupted by user. Cleaning up...")
