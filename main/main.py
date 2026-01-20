@@ -91,7 +91,7 @@ def send_data():
     response = requests.post(url, json=data)
 
     print(response.status_code)
-    print(response.json()["json"])
+    # print(response.json()["json"])
 
 def update_sensors():
     G.th_sensor.read()
