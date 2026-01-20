@@ -54,8 +54,6 @@ const GraphsTab: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {/* useStreamStore component - handles data subscription */}
-      <useStreamStore channel="wind_speed" data={data} setData={setData}/>
-      
       {/* Header */}
       <Grid item xs={12}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
