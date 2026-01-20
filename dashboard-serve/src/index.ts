@@ -121,7 +121,6 @@ const hostServer: http.Server = http.createServer((req, res) => {
 
 		const postString = JSON.stringify(packet);
 		console.log("Sending", postString);
-		console.log("Packet", packet);
 		res.writeHead(200, { 'Content-Type': "application/json", "Content-Length":  Buffer.byteLength(postString)});
 		res.write(postString);
 		return res.end();
@@ -194,6 +193,7 @@ const listenServer: http.Server = http.createServer((req, res) => {
 		req.on("end", () => {
 			const parsed: ListenerData = JSON.parse(body);
 			console.log("Received:", parsed);
+			console.log(typeof(parsed))
 
 			
 			addData(parsed);
