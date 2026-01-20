@@ -154,6 +154,11 @@ const hostServer: http.Server = http.createServer((req, res) => {
 
 function addData(data: ListenerData)
 {
+	console.log(data)
+	if (!data.data || typeof data.data !== "object") {
+        throw new Error("payload.data missing or invalid");
+    }
+
 	Object.keys(data.data).map((key: string) => {
 		const channelData = data.data[key];
 		const channelConfig = configJSON.data_channels[key]
